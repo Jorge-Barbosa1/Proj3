@@ -1,0 +1,40 @@
+
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <script src="https://cdn.jsdelivr.net/npm/markmap-autoloader"></script>
+                        </head>
+                        <body>
+                            <svg id="markmap"></svg>
+                            <script>
+                                const markdown = `# Mindmap
+- Aqui estão os tópicos sugeridos para um mapa mental sobre o PDF:
+- **1. Desenvolvimento de Sistemas de Informação/Software**
+- * Metodologias de desenvolvimento (Agile ou outra)
+- * Ferramentas colaborativas na gestão de Tarefas
+- * Plataformas de controlo de versões
+- **2. Deploy de Sistemas de Informação/Software**
+- * Ferramentas para validar o deploy
+- * Outras ferramentas/frameworks
+- **3. Testes e Segurança no Desenvolvimento de Sistemas de Informação/Software**
+- * Ferramentas para testar webservices
+- * Top 16 Web Service Testing Tools
+- * Ferramentas para testar software
+- * Outras ferramentas: open-source testing tools
+- **4. Manutenção de Sistemas de Informação/Software**
+- * Orientações e boas práticas na manutenção
+- * Ferramentas para auxiliar na manutenção
+- * Checklist para a realização do projeto
+- **5. Segurança no Desenvolvimento de Software**
+- * Vulnerabilidades e ataques
+- * OWASP Foundation
+- * US National Vulnerability Database
+- * 10 Types of Application Security Testing Tools: When and How to Use Them
+- Esses tópicos devem ajudar a organizar as informações presentes no PDF em um mapa mental que seja mais fácil de compreender e navegar.
+`;
+                                const root = window.markmap.parse(markdown);
+                                window.markmap.Markmap.create('#markmap', null, root);
+                            </script>
+                        </body>
+                        </html>
+                        

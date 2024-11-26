@@ -1,0 +1,5 @@
+streamlit
+pymupdf
+langchain-ollama
+SpeechRecognition
+pydub
