@@ -23,7 +23,6 @@ Este projeto é uma aplicação baseada no Streamlit que permite carregar arquiv
 - [PyMuPDF](https://pymupdf.readthedocs.io/en/latest/) - Extração de texto de PDFs.
 - [SpeechRecognition](https://pypi.org/project/SpeechRecognition/) - Transcrição de áudio.
 - [Pydub](https://pypi.org/project/pydub/) - Processamento de áudio.
-- [FFmpeg](https://ffmpeg.org/) - Conversão de áudio.
 - **LangChain-Ollama** - Integração com LLMs.
 
 ---
@@ -32,10 +31,12 @@ Este projeto é uma aplicação baseada no Streamlit que permite carregar arquiv
 
 - **Docker** (opcional, mas recomendado para ambiente isolado).
 
- docker build -t projeto .
+```bash
+  docker build -t projeto .
+  docker run -p 8501:8501 projeto
 
-docker run -p 8501:8501 projeto
 ---
+
 
 ### 2. Rodando Localmente (Sem Docker)
 
