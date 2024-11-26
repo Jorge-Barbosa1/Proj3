@@ -30,24 +30,11 @@ Este projeto é uma aplicação baseada no Streamlit que permite carregar arquiv
 
 ## 📦 Como Configurar o Projeto
 
-### 1. Pré-requisitos
-
-Certifique-se de ter instalado no seu sistema:
-- **Python 3.8+**
-- **FFmpeg**:
-  - Linux:
-    ```bash
-    sudo apt-get install ffmpeg
-    ```
-  - Mac:
-    ```bash
-    brew install ffmpeg
-    ```
-  - Windows:
-    [Guia de Instalação do FFmpeg](https://ffmpeg.org/download.html).
-
 - **Docker** (opcional, mas recomendado para ambiente isolado).
 
+ docker build -t projeto .
+
+docker run -p 8501:8501 projeto
 ---
 
 ### 2. Rodando Localmente (Sem Docker)
