@@ -8,9 +8,10 @@ from io import BytesIO
 
 #Constants
 MODEL_NAME = "llama3" 
+OLLAMA_URL = "http://localhost:11434"
 
 #Start the model
-llm= OllamaLLM(model=MODEL_NAME)
+llm= OllamaLLM(model=MODEL_NAME,base_url=OLLAMA_URL)
 
 #Function to extract text from PDF
 def extract_text_from_pdf(pdf_file):
