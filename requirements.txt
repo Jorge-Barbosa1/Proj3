@@ -1,5 +1,6 @@
+langchain-ollama
 streamlit
 pymupdf
-langchain-ollama
 SpeechRecognition
 pydub
+streamlit-markdown

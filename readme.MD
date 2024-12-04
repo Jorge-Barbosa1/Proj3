@@ -33,15 +33,7 @@ Este projeto é uma aplicação baseada no Streamlit que permite carregar arquiv
 
 ```bash
   docker build -t projeto .
-  docker run -p 8501:8501 projeto
+  docker-compose up --build
 
 ---
 
-
-### 2. Rodando Localmente (Sem Docker)
-
-#### Passo 1: Clone o Repositório
-
-```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio

@@ -1,13 +1,12 @@
 FROM python:3.12-slim
 
-# Instalar dependências 
+# Instalar dependências (audio e PDF)
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     libsndfile1-dev \
     && apt-get clean
 
 WORKDIR /app
-
 
 COPY . /app
 
