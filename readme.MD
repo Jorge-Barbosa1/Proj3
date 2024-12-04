@@ -37,3 +37,5 @@ Este projeto é uma aplicação baseada no Streamlit que permite carregar arquiv
 
 ---
 
+Nota: Se der o erro de nao encontrar o modelo "llama3" abrir a cmd do docker "docker exec -it llama3_pdf-olama-1 bash" e  instalar llama3 "ollama pull llama3"
+
