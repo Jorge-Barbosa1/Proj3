@@ -4,3 +4,4 @@ pymupdf
 SpeechRecognition
 pydub
 streamlit-markdown
+graphviz

@@ -5,6 +5,7 @@ import fitz # PyMuPDF to extract text from PDF
 import speech_recognition as sr 
 from pydub import AudioSegment # AudioSegment to convert audio file to wav format
 from io import BytesIO
+import graphviz #Required for displaying the mindmap
 
 #Constants
 MODEL_NAME = "llama3" 
@@ -49,43 +50,51 @@ def convert_audio_to_text(audio_file):
         st.warning("Audio file could not be understood") 
         return None    
 
-#Function to generate mindmap
-def generate_mindmap(text):
-    """Generate a mindmap from the text"""
-    if not text :
-        return None
-    lines= text.split("\n")
-    mindmap = "# Mindmap\n"
+# Function to generate mindmap structure
+def generate_mindmap_structure(text):
+    """Gera uma estrutura de mapa mental a partir do texto gerado."""
+    mindmap = {}
+    lines = text.strip().split('\n')
+    
+    current_topic = None
     for line in lines:
-        if line.strip():
-            mindmap += f"- {line.strip()}\n"
+        line = line.strip()
+        if not line:
+            continue
+        if line.endswith(':'):
+            current_topic = line[:-1]  # Remove ":" do tópico principal
+            mindmap[current_topic] = []
+        elif current_topic:
+            mindmap[current_topic].append(line)
+    
     return mindmap
 
-#Function to display the mindmap
-def display_mindmap(mindmap):
-    """Display the mindmap on the Streamlit app"""
+
+# Function to render and display the mindmap
+def render_mindmap_as_image(mindmap):
+    """Renderiza e exibe o mapa mental como uma imagem no Streamlit."""
     if not mindmap:
-        st.warning("Mindmap could not be generated")
+        st.warning("Nenhum mapa mental foi gerado. Verifique a entrada.")
         return
+
+    dot = graphviz.Digraph(format='png', engine='dot')
+    dot.attr(dpi='300')  # Alta resolução
+
+    for topic, subtopics in mindmap.items():
+        dot.node(topic, shape="box", style="filled", color="lightblue")
+        for subtopic in subtopics:
+            dot.node(subtopic, shape="ellipse", color="lightgrey")
+            dot.edge(topic, subtopic)
     
-    #Display the mindmap using the streamlit markdown component
-    markmap_template = f"""
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <script src="https://cdn.jsdelivr.net/npm/markmap-lib/dist/index.umd.js"></script>
-    </head>
-    <body>
-        <svg id="mindmap" style="width: 100%; height: 600px;"></svg>
-        <script>
-            const data = `{mindmap}`;
-            const markmap = markmap.Markmap.create("#mindmap");
-            markmap.setMarkdown(data);
-        </script>
-    </body>
-    </html>
-    """
-    st.components.v1.html(markmap_template, height=650)
+    # Renderizar o gráfico como uma imagem
+    tmp_path = "/tmp/mindmap.png"
+    dot.render(tmp_path, format="png", cleanup=True)
+
+    # Exibir a imagem no Streamlit
+    st.image(tmp_path, use_column_width=True)
+
+
+
 
 #Main 
 def main():
@@ -137,9 +146,12 @@ def main():
                 st.write(response)
 
                 #Generate the mindmap
-                mindmap = generate_mindmap(response)
+                mindmap = generate_mindmap_structure(response)
+                st.subheader("Mindmap Structure:")
+                st.write(mindmap)
+                
                 st.subheader("Mindmap:")
-                display_mindmap(mindmap)
+                render_mindmap_as_image(mindmap)
             
             except Exception as e:
                 st.error(f"Error processing the model: {e}")
