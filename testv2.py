@@ -5,11 +5,13 @@ import fitz # PyMuPDF to extract text from PDF
 import speech_recognition as sr 
 from pydub import AudioSegment # AudioSegment to convert audio file to wav format
 from io import BytesIO
-import graphviz #Required for displaying the mindmap
+from graphviz import Digraph
+import streamlit.components.v1 as components
+import os 
 
 #Constants
 MODEL_NAME = "llama3" 
-OLLAMA_URL = "http://olama:11434"
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
 
 #Start the model
 llm= OllamaLLM(model=MODEL_NAME,base_url=OLLAMA_URL)
@@ -72,27 +74,25 @@ def generate_mindmap_structure(text):
 
 # Function to render and display the mindmap
 def render_mindmap_as_image(mindmap):
-    """Renderiza e exibe o mapa mental como uma imagem no Streamlit."""
-    if not mindmap:
-        st.warning("Nenhum mapa mental foi gerado. Verifique a entrada.")
-        return
+    try:
+       
+        dot = Digraph(comment="Mapa Mental")
+        dot.attr(rankdir="LR") 
 
-    dot = graphviz.Digraph(format='png', engine='dot')
-    dot.attr(dpi='300')  # Alta resolução
+        # Adicione os nós e conexões ao grafo
+        for topic, subtopics in mindmap.items():
+            dot.node(topic, topic) 
+            for subtopic in subtopics:
+                dot.node(subtopic, subtopic) 
+                dot.edge(topic, subtopic) 
+        
 
-    for topic, subtopics in mindmap.items():
-        dot.node(topic, shape="box", style="filled", color="lightblue")
-        for subtopic in subtopics:
-            dot.node(subtopic, shape="ellipse", color="lightgrey")
-            dot.edge(topic, subtopic)
-    
-    # Renderizar o gráfico como uma imagem
-    tmp_path = "/tmp/mindmap.png"
-    dot.render(tmp_path, format="png", cleanup=True)
+        svg_code = dot.pipe(format="svg").decode("utf-8")
 
-    # Exibir a imagem no Streamlit
-    st.image(tmp_path, use_column_width=True)
-
+        
+        components.html(svg_code, height=500, scrolling=True)
+    except Exception as e:
+        st.error(f"Erro ao renderizar o mapa mental: {e}")
 
 
 
@@ -134,7 +134,7 @@ def main():
             return
         
         st.subheader("Thinking...")
-        with st.spinner("Generationg"):
+        with st.spinner("Generating"):
             try:
                 final_prompt = (
                     f"Escreve tópicos para fazer um mapa mental sobre o seguinte texto:\n\n{input_text}"
