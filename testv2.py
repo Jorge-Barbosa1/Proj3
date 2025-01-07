@@ -54,7 +54,6 @@ def convert_audio_to_text(audio_file):
 
 # Function to generate mindmap structure
 def generate_mindmap_structure(text):
-    """Gera uma estrutura de mapa mental a partir do texto gerado."""
     mindmap = {}
     lines = text.strip().split('\n')
     
@@ -64,7 +63,7 @@ def generate_mindmap_structure(text):
         if not line:
             continue
         if line.endswith(':'):
-            current_topic = line[:-1]  # Remove ":" do tópico principal
+            current_topic = line[:-1] 
             mindmap[current_topic] = []
         elif current_topic:
             mindmap[current_topic].append(line)
